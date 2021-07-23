@@ -1,77 +1,122 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
+  <v-row>
+    <v-col cols="12" sm="6" md="6">
+      <v-card :disabled="!hostStats.ok" :loading="!hostStats.ok">
+        <v-card-title>CPU Information</v-card-title>
+        <v-divider class="ma-0 pa-0"></v-divider>
+        <v-list v-if="hostStats.ok" class="transparent">
+         <v-list-item>
+           <v-list-item-icon>
+             <v-icon>mdi-cpu-64-bit</v-icon>
+           </v-list-item-icon>
+           <v-list-item-title>Number of cores</v-list-item-title>
+           <v-list-item-subtitle class="text-right">
+             {{hostStats.status.cpu.cores}}
+           </v-list-item-subtitle>
+         </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-speedometer</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Clock Frequency</v-list-item-title>
+            <v-list-item-subtitle class="text-right">
+              {{hostStats.status.cpu.speed}}Ghz
+            </v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-thermometer</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Temperature</v-list-item-title>
+            <v-list-item-subtitle class="text-right">
+              {{hostStats.status.cpuTemps.main}}° Celcius
+            </v-list-item-subtitle>
+          </v-list-item>
+        </v-list>
+        <v-card-text v-else>
+          No stats known yet.
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
+      </v-card>
+    </v-col>
+    <v-col cols="12" sm="6" md="6">
+      <v-card :disabled="!hostStats.ok" :loading="!hostStats.ok">
+        <v-card-title>RAM Information</v-card-title>
+        <v-divider class="ma-0 pa-0"></v-divider>
+        <v-list v-if="hostStats.ok" class="transparent">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-chart-box-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Total System RAM</v-list-item-title>
+            <v-list-item-subtitle class="text-right">
+              {{hostStats.status.ram.total | toGigaBytes }}
+            </v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-chart-line</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>System RAM Used</v-list-item-title>
+            <v-list-item-subtitle class="text-right">
+              {{hostStats.status.ram.used|toGigaBytes}}
+            </v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-chart-box-plus-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>System Ram Available</v-list-item-title>
+            <v-list-item-subtitle class="text-right">
+              {{hostStats.status.ram.available|toGigaBytes}}
+            </v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-chart-box-plus-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Process RAM Available</v-list-item-title>
+            <v-list-item-subtitle class="text-right">
+              {{hostStats.status.ram.free|toGigaBytes}}
+            </v-list-item-subtitle>
+          </v-list-item>
+        </v-list>
+        <v-card-text v-else>
+          No stats known yet.
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>
 </template>
+<script>
+import consola from 'consola'
+import { HOST_STATS_UPDATE } from "~/assets/pwnsocket/messages";
+export default {
+  data() {
+    return {
+      testMsg: 'msg not yet set.'
+    }
+  },
+  filters: {
+    toGigaBytes(value) {
+      const gbs = value/1000000000
+      return gbs.toFixed(2) + "GB";
+    }
+  },
+  mounted() {
+    /* Listen for events: */
+    this.$socket.on('connect', ()=> {
+      this.$socket.on(HOST_STATS_UPDATE, (msg) => {
+        consola.debug("Received new host system status")
+        this.$store.dispatch('system/addStats', msg)
+      })
+    });
+  },
+  methods: {
+  },
+  computed: {
+    hostStats() {
+      return this.$store.getters['system/lastStat']
+    }
+  }
+}
+</script>

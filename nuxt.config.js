@@ -1,10 +1,10 @@
+// eslint-disable-next-line nuxt/no-cjs-in-config
 import colors from 'vuetify/es5/util/colors'
-
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - pwnstation-web',
-    title: 'pwnstation-web',
+    titleTemplate: '%s - PwnStation',
+    title: 'PwnStation',
     htmlAttrs: {
       lang: 'en'
     },
@@ -18,9 +18,14 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-
+  dev: process.env.NODE_ENV !== 'production',
   server: {
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    port: 3000,
+  },
+  env: {
+    wsUrl: process.env.WS_URL || (process.env.NODE_ENV === 'production' ?  'ws://pwn.station' : 'ws://192.168.2.141:3000'),
+    isDev: process.env.NODE_ENV !== 'production'
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -29,6 +34,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: '~/plugins/socket-client-plugin.js', mode: 'client'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,8 +52,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '~/modules/ws'
   ],
-
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
