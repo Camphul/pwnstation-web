@@ -56,6 +56,7 @@ async function getHostStats(cb = (data) => {}) {
 export function hostStatsServerWSTask(io) {
   return setInterval(() => {
     consola.debug("Obtaining system status")
+    console.info("NODE_ENV: " + process.env.NODE_ENV)
     getHostStats((data) => {
       io.emit(HOST_STATS_UPDATE, data)
     });

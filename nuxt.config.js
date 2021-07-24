@@ -62,7 +62,7 @@ export default {
   privateRuntimeConfig: {
     SERVER_PORT: process.env.SERVER_PORT | 3000,
     SERVER_HOST: process.env.SERVER_HOST | '0',
-    WS_CORS_HOSTNAMES: process.env.WS_CORS_HOSTNAMES | 'ws://localhost:3000',
+    WS_CORS_HOSTNAMES: process.env.WS_CORS_HOSTNAMES | 'ws://pwn.station',
     SHUTDOWN_COMMAND: process.env.CPU_ARCH === process.env.CPU_ARCH_RPI ? process.env.SHUTDOWN_COMMAND_RPI : process.env.SHUTDOWN_COMMAND_X86,
     REBOOT_COMMAND: process.env.CPU_ARCH === process.env.CPU_ARCH_RPI ? process.env.REBOOT_COMMAND_RPI : process.env.REBOOT_COMMAND_X86,
   },
