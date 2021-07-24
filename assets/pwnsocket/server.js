@@ -14,6 +14,7 @@ export function handleServerWS(io) {
       const parsedCommand = JSON.parse(process.env.SHUTDOWN_COMMAND)
       const cmd = parsedCommand.cmd;
       const args = parsedCommand.args;
+      consola.info("Arguments: " + args);
       spawn(cmd, args, {
         cwd: process.env.CWD_DIR,
         detached: true,
@@ -25,6 +26,7 @@ export function handleServerWS(io) {
       const parsedCommand = JSON.parse(process.env.REBOOT_COMMAND)
       const cmd = parsedCommand.cmd;
       const args = parsedCommand.args;
+      consola.info("Arguments: " + args);
       spawn(cmd, args, {
         cwd: process.env.CWD_DIR,
         detached: true,
