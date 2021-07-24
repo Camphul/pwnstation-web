@@ -13,14 +13,14 @@ export const state = () => ({
       to: '/wlan'
     },
     {
-      icon: 'mdi-antenna',
-      title: 'Kismet',
-      to: '/kismet'
-    },
-    {
       icon: 'mdi-wifi-cog',
       title: 'Host AP',
       to: '/hostAp'
+    },
+    {
+      icon: 'mdi-antenna',
+      title: 'Kismet',
+      to: '/kismet'
     },
     {
       icon: 'mdi-sitemap',
@@ -34,12 +34,12 @@ export const state = () => ({
     },
     {
       icon: 'mdi-battery-charging-outline',
-      title: 'UPS Battery',
+      title: 'UPS Hat',
       to: '/ups'
     },
     {
       icon: 'mdi-database-cog',
-      title: 'WebPanel',
+      title: 'Panel Config',
       to: '/panelConfig'
     },
 
