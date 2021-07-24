@@ -16,16 +16,16 @@ module.exports = {
         HOST: '0.0.0.0',
         WS_URL: 'ws://pwn.panel',
         NODE_ENV: 'production',
-        SHUTDOWN_COMMAND: '{"cmd": "sudo", "args": ["shutdown", "+1"]}',
-        REBOOT_COMMAND: '{"cmd": "sudo", "args": ["reboot"]}'
+        SHUTDOWN_COMMAND: '\'{"cmd": "sudo", "args": ["shutdown", "+1"]}\'',
+        REBOOT_COMMAND: '\'{"cmd": "sudo", "args": ["reboot"]}\''
       },
       env_production: {
         PORT: 3000,
         HOST: '0.0.0.0',
         WS_URL: 'ws://pwn.panel',
         NODE_ENV: 'production',
-        SHUTDOWN_COMMAND: '{"cmd": "sudo", "args": ["shutdown", "+1"]}',
-        REBOOT_COMMAND: '{"cmd": "sudo", "args": ["reboot"]}'
+        SHUTDOWN_COMMAND: '\'{"cmd": "sudo", "args": ["shutdown", "+1"]}\'',
+        REBOOT_COMMAND: '\'{"cmd": "sudo", "args": ["reboot"]}\''
       }
     }
   ]
