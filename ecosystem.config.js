@@ -16,7 +16,8 @@ module.exports = {
         HOST: '0.0.0.0',
         WS_URL: 'ws://pwn.panel',
         NODE_ENV: 'production',
-        SHUTDOWN_COMMAND: JSON.stringify({"cmd": "sudo", "args": ["shutdown", "+1"]}),
+        CWD_DIR: '/home/pi/',
+        SHUTDOWN_COMMAND: JSON.stringify({"cmd": "sudo", "args": ["x728softsd.sh"]}),
         REBOOT_COMMAND: JSON.stringify({"cmd": "sudo", "args": ["reboot"]})
       },
       env_production: {
@@ -24,7 +25,8 @@ module.exports = {
         HOST: '0.0.0.0',
         WS_URL: 'ws://pwn.panel',
         NODE_ENV: 'production',
-        SHUTDOWN_COMMAND: JSON.stringify({"cmd": "sudo", "args": ["shutdown", "+1"]}),
+        CWD_DIR: '/home/pi/',
+        SHUTDOWN_COMMAND: JSON.stringify({"cmd": "sudo", "args": ["x728softsd.sh"]}),
         REBOOT_COMMAND: JSON.stringify({"cmd": "sudo", "args": ["reboot"]})
       }
     }
