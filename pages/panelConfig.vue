@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted() {
-    this.$pageTitle('Webpanel configuration & software updates')
+    this.$pageTitle('PwnStation Web Setup')
   }
 }
 </script>

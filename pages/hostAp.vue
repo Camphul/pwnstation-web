@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted() {
-    this.$pageTitle('Wireless AP')
+    this.$pageTitle('Host AP')
   }
 }
 </script>
