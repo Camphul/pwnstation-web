@@ -10,12 +10,8 @@ export function handleServerWS(io) {
   hostStatsServerWSTask(io)
   io.on('connection', (socket) => {
     socket.on(HOST_SHUTDOWN, function (fn) {
-      consola.info("Shutdown signal received")
-      const parsedCommand = JSON.parse(process.env.SHUTDOWN_COMMAND)
-      const cmd = parsedCommand.cmd;
-      const args = parsedCommand.args;
-      consola.info("Arguments: " + args);
-      exec(cmd + ' ' + args.join(' '), {
+      consola.info("Shutting down");
+      exec("sudo shutdown now", {
         cwd: process.env.CWD_DIR,
       });
     })
