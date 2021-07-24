@@ -55,7 +55,7 @@ export default {
   publicRuntimeConfig: {
     CPU_ARCH: process.env.NODE_ENV === 'production' ? process.env.CPU_ARCH_RPI : process.env.CPU_ARCH_X86,
     LOCALE: process.env.LOCALE | 'en',
-    WS_URL: process.env.CPU_ARCH === process.env.CPU_ARCH_RPI ?  process.env.WS_URL_PROD : process.env.WS_URL_DEV,
+    WS_URL: process.env.NODE_ENV === 'production' ?  process.env.WS_URL_PROD : process.env.WS_URL_DEV,
   },
   privateRuntimeConfig: {
     SERVER_PORT: process.env.SERVER_PORT | 3000,
