@@ -11,11 +11,11 @@ export function handleServerWS(io) {
   io.on('connection', (socket) => {
     socket.on(HOST_SHUTDOWN, function (fn) {
       consola.info("Shutdown signal received")
-      exec('sudo shutdown +1')
+      exec(process.env.SHUTDOWN_COMMAND)
     })
     socket.on(HOST_REBOOT, function (fn) {
       consola.info("Reboot signal received")
-      exec('sudo shutdown -r +1')
+      exec(process.env.REBOOT_COMMAND)
     })
   })
 }

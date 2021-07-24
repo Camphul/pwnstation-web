@@ -6,7 +6,7 @@ export default {
     titleTemplate: '%s - PwnStation',
     title: 'PwnStation',
     htmlAttrs: {
-      lang: 'en'
+      lang: process.env.LOCALE
     },
     meta: [
       { charset: 'utf-8' },
@@ -20,12 +20,8 @@ export default {
   },
   dev: process.env.NODE_ENV !== 'production',
   server: {
-    host: '0.0.0.0',
-    port: 3000,
-  },
-  env: {
-    wsUrl: process.env.WS_URL || (process.env.NODE_ENV === 'production' ?  'ws://pwn.station' : 'ws://192.168.2.141:3000'),
-    isDev: process.env.NODE_ENV !== 'production'
+    host: process.env.SERVER_HOST,
+    port: process.env.SERVER_PORT,
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -54,6 +50,20 @@ export default {
     '@nuxtjs/axios',
     '~/modules/ws'
   ],
+
+  publicRuntimeConfig: {
+    CPU_ARCH: process.env.NODE_ENV === 'production' ? process.env.CPU_ARCH_RPI : process.env.CPU_ARCH_X86,
+    LOCALE: process.env.LOCALE | 'en',
+    WS_URL: process.env.CPU_ARCH === process.env.CPU_ARCH_RPI ?  process.env.WS_URL_PROD : process.env.WS_URL_DEV,
+  },
+  privateRuntimeConfig: {
+    SERVER_PORT: process.env.SERVER_PORT | 3000,
+    SERVER_HOST: process.env.SERVER_HOST | '0',
+    WS_CORS_HOSTNAMES: process.env.WS_CORS_HOSTNAMES | 'ws://localhost:3000',
+    SHUTDOWN_COMMAND: process.env.CPU_ARCH === process.env.CPU_ARCH_RPI ? process.env.SHUTDOWN_COMMAND_RPI : process.env.SHUTDOWN_COMMAND_X86,
+    REBOOT_COMMAND: process.env.CPU_ARCH === process.env.CPU_ARCH_RPI ? process.env.REBOOT_COMMAND_RPI : process.env.REBOOT_COMMAND_X86,
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
@@ -69,7 +79,7 @@ export default {
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
           warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
+          error: colors.deepOrange.accent,
           success: colors.green.accent3
         }
       }
