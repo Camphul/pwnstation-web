@@ -7,6 +7,7 @@ module.exports = {
       script: './node_modules/nuxt/bin/nuxt.js',
       args: 'start',
       cwd: '/opt/pwnstation-web',
+      max_memory_restart: "512M",
       autorestart: true,
       env: {
         NODE_ENV: 'development'
