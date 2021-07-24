@@ -1,4 +1,4 @@
-import {exec} from 'child_process'
+import { spawn } from 'child_process'
 import consola from 'consola'
 import si from 'systeminformation'
 import { HOST_REBOOT, HOST_SHUTDOWN, HOST_STATS_UPDATE } from "./messages";
@@ -11,11 +11,23 @@ export function handleServerWS(io) {
   io.on('connection', (socket) => {
     socket.on(HOST_SHUTDOWN, function (fn) {
       consola.info("Shutdown signal received")
-      exec(process.env.SHUTDOWN_COMMAND)
+      const parsedCommand = JSON.parse(process.env.SHUTDOWN_COMMAND)
+      const cmd = parsedCommand.cmd;
+      const args = parsedCommand.args;
+      spawn(cmd, args, {
+        cwd: process.env.CWD_DIR,
+        detached: true
+      })
     })
     socket.on(HOST_REBOOT, function (fn) {
       consola.info("Reboot signal received")
-      exec(process.env.REBOOT_COMMAND)
+      const parsedCommand = JSON.parse(process.env.REBOOT_COMMAND)
+      const cmd = parsedCommand.cmd;
+      const args = parsedCommand.args;
+      spawn(cmd, args, {
+        cwd: process.env.CWD_DIR,
+        detached: true
+      })
     })
   })
 }
@@ -56,7 +68,6 @@ async function getHostStats(cb = (data) => {}) {
 export function hostStatsServerWSTask(io) {
   return setInterval(() => {
     consola.debug("Obtaining system status")
-    console.info("NODE_ENV: " + process.env.NODE_ENV)
     getHostStats((data) => {
       io.emit(HOST_STATS_UPDATE, data)
     });

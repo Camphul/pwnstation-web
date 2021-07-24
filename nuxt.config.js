@@ -51,20 +51,21 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '~/modules/ws'
+    '~/modules/ws',
   ],
 
   publicRuntimeConfig: {
     CPU_ARCH: process.env.NODE_ENV === 'production' ? process.env.CPU_ARCH_RPI : process.env.CPU_ARCH_X86,
     LOCALE: process.env.LOCALE | 'en',
     WS_URL: process.env.NODE_ENV === 'production' ?  process.env.WS_URL_PROD : process.env.WS_URL_DEV,
+    SHUTDOWN_COMMAND: process.env.NODE_ENV === 'production' ? process.env.SHUTDOWN_COMMAND_RPI : process.env.SHUTDOWN_COMMAND_X86,
+    REBOOT_COMMAND: process.env.NODE_ENV === 'production' ? process.env.REBOOT_COMMAND_RPI : process.env.REBOOT_COMMAND_X86,
+    CWD_DIR: process.env.NODE_ENV === 'production' ? process.env.CWD_DIR_PROD : process.env.CWD_DIR_DEV
   },
   privateRuntimeConfig: {
     SERVER_PORT: process.env.SERVER_PORT | 3000,
     SERVER_HOST: process.env.SERVER_HOST | '0',
     WS_CORS_HOSTNAMES: process.env.WS_CORS_HOSTNAMES | 'ws://pwn.station',
-    SHUTDOWN_COMMAND: process.env.CPU_ARCH === process.env.CPU_ARCH_RPI ? process.env.SHUTDOWN_COMMAND_RPI : process.env.SHUTDOWN_COMMAND_X86,
-    REBOOT_COMMAND: process.env.CPU_ARCH === process.env.CPU_ARCH_RPI ? process.env.REBOOT_COMMAND_RPI : process.env.REBOOT_COMMAND_X86,
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

@@ -1,6 +1,7 @@
 export const state = () => ({
   drawer: false,
   title: 'PwnStation',
+  loadingOverlay: false,
   drawerItems: [
     {
       icon: 'mdi-apps',
@@ -50,6 +51,9 @@ export const mutations = {
   toggleDrawer(state) {
     state.drawer = !state.drawer;
   },
+  setLoadingOverlay(state, loading) {
+    state.loadingOverlay = loading;
+  },
   setTitle(state, title) {
     state.title = title
   }
@@ -60,13 +64,19 @@ export const actions = {
     return commit('toggleDrawer')
   },
   setTitle({commit}, title) {
-    commit('setTitle', title)
+    return commit('setTitle', title)
+  },
+  setLoadingOverlay({commit}, loading) {
+    commit('setLoadingOverlay', loading)
   }
 }
 
 export const getters = {
   drawer(state) {
     return state.drawer
+  },
+  showLoadingOverlay(state) {
+    return state.loadingOverlay
   },
   title(state) {
     return state.title
