@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted() {
-    this.$pageTitle('UPS Battery')
+    this.$pageTitle('UPS Hat')
   }
 }
 </script>
