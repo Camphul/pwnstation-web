@@ -16,8 +16,9 @@ export function handleServerWS(io) {
       const args = parsedCommand.args;
       spawn(cmd, args, {
         cwd: process.env.CWD_DIR,
-        detached: true
-      })
+        detached: true,
+        stdio: 'ignore'
+      }).unref()
     })
     socket.on(HOST_REBOOT, function (fn) {
       consola.info("Reboot signal received")
@@ -26,8 +27,9 @@ export function handleServerWS(io) {
       const args = parsedCommand.args;
       spawn(cmd, args, {
         cwd: process.env.CWD_DIR,
-        detached: true
-      })
+        detached: true,
+        stdio: 'ignore'
+      }).unref()
     })
   })
 }
