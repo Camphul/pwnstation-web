@@ -1,3 +1,9 @@
-export * from './server'
-export * from './client'
-export * from './messages'
+import * as server from './server'
+import * as client from './client'
+import * as messages from './messages'
+
+export default {
+  server,
+  client,
+  messages
+}
