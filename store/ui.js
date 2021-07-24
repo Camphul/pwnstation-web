@@ -14,8 +14,18 @@ export const state = () => ({
     },
     {
       icon: 'mdi-console',
+      title: 'Kismet',
+      to: '/kismet'
+    },
+    {
+      icon: 'mdi-console',
       title: 'Terminal',
       to: '/tty'
+    },
+    {
+      icon: 'mdi-console',
+      title: 'UPS Battery',
+      to: '/ups'
     },
 
   ],
