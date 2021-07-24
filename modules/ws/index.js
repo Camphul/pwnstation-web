@@ -5,7 +5,7 @@ import { handleServerWS } from "../../assets/pwnsocket/server";
 export default function () {
   this.nuxt.hook('render:before', (renderer) => {
     const server = http.createServer(this.nuxt.renderer.app)
-    const acceptedCorsOrigins = process.env.WS_CORS_HOSTNAMES;
+    const acceptedCorsOrigins = process.env.WS_CORS_HOSTNAMES.split(',');
     consola.info("Accepted cross origins is array: " + Array.isArray(acceptedCorsOrigins))
     consola.info("Accepted CORS origins: " + acceptedCorsOrigins)
     const io = socketIO(server, {
