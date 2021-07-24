@@ -17,7 +17,7 @@ module.exports = {
         WS_URL: 'ws://pwn.panel',
         NODE_ENV: 'production',
         CWD_DIR: '/home/pi/',
-        SHUTDOWN_COMMAND: JSON.stringify({"cmd": "sudo /usr/local/bin/x728softsd.sh", "args": []}),
+        SHUTDOWN_COMMAND: JSON.stringify({"cmd": "sudo", "args": ["/usr/local/bin/x728softsd.sh"]}),
         REBOOT_COMMAND: JSON.stringify({"cmd": "sudo", "args": ["reboot"]})
       },
       env_production: {
