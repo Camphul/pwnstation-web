@@ -24,8 +24,8 @@ export const state = () => ({
     },
     {
       icon: 'mdi-sitemap',
-      title: 'Processes and Services',
-      to: '/processAndServices'
+      title: 'System Services',
+      to: '/systemServices'
     },
     {
       icon: 'mdi-console',

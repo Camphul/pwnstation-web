@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12" sm="8" md="6">
-      <p>Handle processess and services here</p>
+      <p>Handle system processess and services here</p>
     </v-col>
   </v-row>
 </template>
@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted() {
-    this.$pageTitle('Processes and Services')
+    this.$pageTitle('System Services')
   }
 }
 </script>
