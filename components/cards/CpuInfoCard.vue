@@ -27,7 +27,7 @@
         </v-list-item-icon>
         <v-list-item-title>Temperature</v-list-item-title>
         <v-list-item-subtitle class="text-right">
-          {{hostStats.status.cpuTemps.main}}° Celcius
+          {{Math.round(hostStats.status.cpuTemps.main)}}° Celcius
         </v-list-item-subtitle>
       </v-list-item>
     </v-list>
