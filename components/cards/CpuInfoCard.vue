@@ -4,7 +4,7 @@
     <v-divider class="ma-0 pa-0"></v-divider>
     <v-list v-if="hostStats.ok" class="transparent">
       <v-list-item>
-        <v-list-item-icon>
+        <v-list-item-icon class=".d-sm-none .d-md-flex">
           <v-icon>mdi-cpu-64-bit</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Number of cores</v-list-item-title>
@@ -13,7 +13,7 @@
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
-        <v-list-item-icon>
+        <v-list-item-icon class=".d-sm-none .d-md-flex">
           <v-icon>mdi-speedometer</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Clock Frequency</v-list-item-title>
@@ -22,7 +22,7 @@
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
-        <v-list-item-icon>
+        <v-list-item-icon class=".d-sm-none .d-md-flex">
           <v-icon>mdi-thermometer</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Temperature</v-list-item-title>
