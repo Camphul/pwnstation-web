@@ -1,9 +1,9 @@
 <template>
   <v-row>
-    <v-col cols="12" sm="6" md="6">
+    <v-col cols="12" sm="6" md="6" class="pa-3 d-flex flex-column">
       <CpuInfoCard></CpuInfoCard>
     </v-col>
-    <v-col cols="12" sm="6" md="6">
+    <v-col cols="12" sm="6" md="6" class="pa-3 d-flex flex-column">
       <RamInfoCard></RamInfoCard>
     </v-col>
   </v-row>

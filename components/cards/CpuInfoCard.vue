@@ -1,5 +1,5 @@
 <template>
-  <v-card :disabled="!hostStats.ok" :loading="!hostStats.ok">
+  <v-card :disabled="!hostStats.ok" :loading="!hostStats.ok" class="elevation-5 flex d-flex flex-column">
     <v-card-title>CPU Information</v-card-title>
     <v-divider class="ma-0 pa-0"></v-divider>
     <v-list v-if="hostStats.ok" class="transparent">

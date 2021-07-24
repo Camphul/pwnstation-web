@@ -1,4 +1,4 @@
-import { spawn } from 'child_process'
+import { exec } from 'child_process'
 import consola from 'consola'
 import si from 'systeminformation'
 import { HOST_REBOOT, HOST_SHUTDOWN, HOST_STATS_UPDATE } from "./messages";
@@ -15,11 +15,9 @@ export function handleServerWS(io) {
       const cmd = parsedCommand.cmd;
       const args = parsedCommand.args;
       consola.info("Arguments: " + args);
-      spawn(cmd, args, {
+      exec(cmd + ' ' + args.join(' '), {
         cwd: process.env.CWD_DIR,
-        detached: true,
-        stdio: 'ignore'
-      }).unref()
+      });
     })
     socket.on(HOST_REBOOT, function (fn) {
       consola.info("Reboot signal received")
@@ -27,11 +25,9 @@ export function handleServerWS(io) {
       const cmd = parsedCommand.cmd;
       const args = parsedCommand.args;
       consola.info("Arguments: " + args);
-      spawn(cmd, args, {
+      exec(cmd + ' ' + args.join(' '), {
         cwd: process.env.CWD_DIR,
-        detached: true,
-        stdio: 'ignore'
-      }).unref()
+      });
     })
   })
 }
