@@ -30,7 +30,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {src: '~/plugins/socket-client-plugin.js', mode: 'client'}
+    {src: '~/plugins/socket-client-plugin.js', mode: 'client'},
+    {src: '~/plugins/page-title-plugin.js', mode: 'client'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

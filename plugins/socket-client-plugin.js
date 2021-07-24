@@ -5,5 +5,4 @@ export default ({ app, store, env, $config }, inject) => {
   inject('socket', socket)
   inject('isConnected', () => isClientConnected(store))
   handleClientConnectionStatus(store, socket)
-
 }
