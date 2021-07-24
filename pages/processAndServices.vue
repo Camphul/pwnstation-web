@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted() {
-    this.$pageTitle('Processes & services')
+    this.$pageTitle('Processes and Services')
   }
 }
 </script>

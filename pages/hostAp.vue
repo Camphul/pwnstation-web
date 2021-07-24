@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12" sm="8" md="6">
-      <p>Make a terminal emulator here</p>
+      <p>Handle HostApd and DnsMasq stuff here</p>
     </v-col>
   </v-row>
 </template>
@@ -12,7 +12,7 @@ export default {
     }
   },
   mounted() {
-    this.$pageTitle('Terminal Emulator')
+    this.$pageTitle('Wireless AP')
   }
 }
 </script>
