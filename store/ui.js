@@ -28,7 +28,7 @@ export const state = () => ({
       to: '/processAndServices'
     },
     {
-      icon: 'mdi-batery-unknown',
+      icon: 'mdi-battery-unknown',
       title: 'UPS Battery',
       to: '/ups'
     },
