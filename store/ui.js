@@ -13,7 +13,7 @@ export const state = () => ({
       to: '/wlan'
     },
     {
-      icon: 'mdi-console',
+      icon: 'mdi-wifi-arrow-left-right',
       title: 'Kismet',
       to: '/kismet'
     },
@@ -23,9 +23,19 @@ export const state = () => ({
       to: '/tty'
     },
     {
-      icon: 'mdi-console',
+      icon: 'mdi-sitemap',
+      title: 'Process and Services',
+      to: '/processAndServices'
+    },
+    {
+      icon: 'mdi-batery-unknown',
       title: 'UPS Battery',
       to: '/ups'
+    },
+    {
+      icon: 'mdi-cog',
+      title: 'WebPanel',
+      to: '/webpanel'
     },
 
   ],
