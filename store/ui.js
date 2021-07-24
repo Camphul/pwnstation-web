@@ -18,9 +18,9 @@ export const state = () => ({
       to: '/kismet'
     },
     {
-      icon: 'mdi-console',
-      title: 'Terminal',
-      to: '/tty'
+      icon: 'mdi-wifi-cog',
+      title: 'Host AP',
+      to: '/hostAp'
     },
     {
       icon: 'mdi-sitemap',
@@ -28,17 +28,17 @@ export const state = () => ({
       to: '/processAndServices'
     },
     {
-      icon: 'mdi-battery-unknown',
+      icon: 'mdi-console',
+      title: 'Terminal',
+      to: '/tty'
+    },
+    {
+      icon: 'mdi-battery-charging-outline',
       title: 'UPS Battery',
       to: '/ups'
     },
     {
-      icon: 'mdi-antenna',
-      title: 'Host AP',
-      to: '/hostAp'
-    },
-    {
-      icon: 'mdi-cog',
+      icon: 'mdi-database-cog',
       title: 'WebPanel',
       to: '/panelConfig'
     },
