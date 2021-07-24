@@ -39,7 +39,7 @@ export const state = () => ({
     },
     {
       icon: 'mdi-database-cog',
-      title: 'Web Settings and Updates',
+      title: 'PwnPanel Settings',
       to: '/panelConfig'
     },
 
