@@ -21,12 +21,10 @@ export default {
   mounted() {
     this.$pageTitle('PwnStation')
     /* Listen for events: */
-    this.$socket.on('connect', ()=> {
-      this.$socket.on(HOST_STATS_UPDATE, (msg) => {
-        consola.debug("Received new host system status")
-        this.$store.dispatch('system/addStats', msg)
-      })
-    });
+    this.$socket.on(HOST_STATS_UPDATE, (msg) => {
+      consola.debug("Received new host system status")
+      this.$store.dispatch('system/addStats', msg)
+    })
   },
 }
 </script>

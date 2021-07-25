@@ -1,7 +1,13 @@
 import { exec } from 'child_process'
 import consola from 'consola'
 import si from 'systeminformation'
-import { HOST_REBOOT, HOST_SHUTDOWN, HOST_STATS_UPDATE } from "./messages";
+import {
+  HOST_REBOOT,
+  HOST_SHUTDOWN,
+  HOST_STATS_UPDATE,
+  WLAN_GET_INTERFACES,
+  WLAN_RECEIVE_INTERFACES
+} from "./messages";
 const SYS_STATS_TIMER_INTERVAL = 5000
 
 
@@ -11,19 +17,21 @@ export function handleServerWS(io) {
   io.on('connection', (socket) => {
     socket.on(HOST_SHUTDOWN, function (fn) {
       consola.info("Shutting down");
-      exec("sudo shutdown now", {
+      exec("sudo poweroff", {
         cwd: process.env.CWD_DIR,
       });
     })
     socket.on(HOST_REBOOT, function (fn) {
       consola.info("Reboot signal received")
-      const parsedCommand = JSON.parse(process.env.REBOOT_COMMAND)
-      const cmd = parsedCommand.cmd;
-      const args = parsedCommand.args;
-      consola.info("Arguments: " + args);
-      exec(cmd + ' ' + args.join(' '), {
+      exec("sudo reboot", {
         cwd: process.env.CWD_DIR,
       });
+    })
+    socket.on(WLAN_GET_INTERFACES, function(fn) {
+      consola.info("Requesting wlan interfaces")
+      si.wifiInterfaces((interfaces) => {
+        socket.emit(WLAN_RECEIVE_INTERFACES, interfaces)
+      })
     })
   })
 }

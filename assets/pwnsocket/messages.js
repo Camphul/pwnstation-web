@@ -1,3 +1,5 @@
 export const HOST_STATS_UPDATE = 'host:stats_update'
 export const HOST_REBOOT = 'host:reboot'
 export const HOST_SHUTDOWN = 'host:shutdown'
+export const WLAN_GET_INTERFACES = 'wlan:get_interfaces'
+export const WLAN_RECEIVE_INTERFACES = 'wlan:receive_interfaces'
