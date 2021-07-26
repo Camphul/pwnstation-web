@@ -18,10 +18,16 @@
         <v-list-item-title>Interface</v-list-item-title>
         <v-list-item-subtitle>{{ wlan.iface }}</v-list-item-subtitle>
       </v-list-item>
-      <v-list-item v-if="wlan.operstate !== 'unknown'">
+      <v-list-item v-if="wlan.operstate !== 'unknown' && wlan.operstate !== 'external'">
         <v-list-item-title>Operational</v-list-item-title>
         <v-list-item-subtitle>
           <v-switch class="v-input--switch" :input-value="wlan.operstate == 'up'" @mousedown="handleOperstateChange" ></v-switch>
+        </v-list-item-subtitle>
+      </v-list-item>
+      <v-list-item v-if="wlan.monitorAbility === true">
+        <v-list-item-title>Monitor Mode</v-list-item-title>
+        <v-list-item-subtitle>
+          <v-switch class="v-input--switch" :input-value="wlan.wirelessType == 'monitor'" @mousedown="handleMonitorModeChange" ></v-switch>
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
@@ -49,8 +55,9 @@
   </v-card>
 </template>
 <script>
-  import { WLAN_SET_OPERSTATE } from "~/assets/pwnsocket/messages";
+import { WLAN_SET_OPERSTATE, WLAN_SET_WIRELESS_TYPE } from "~/assets/pwnsocket/messages";
   import ConfirmationDialog from "~/components/dialogs/ConfirmationDialog";
+import { WIRELESS_TYPE_MANAGED} from "~/assets/net/network";
 
   export default {
     props: ['wlan', 'isLoaded'],
@@ -79,6 +86,30 @@
           this.$socket.emit(WLAN_SET_OPERSTATE, {
             iface: this.wlan.ifaceName,
             opStatus: newState
+          })
+        }
+      },
+      async handleMonitorModeChange(event) {
+        event.stopPropagation();
+        event.preventDefault()
+        event.stopImmediatePropagation()
+        if (await this.$refs.confirmOpState.open(
+          "Confirm",
+          "Changing to monitor mode may affect your connection",
+          {
+            color: 'primary'
+          }
+        )
+        ) {
+          let newState;
+          if (this.wlan.wirelessType === WIRELESS_TYPE_MANAGED) {
+            newState = true;
+          } else {
+            newState = false;
+          }
+          this.$socket.emit(WLAN_SET_WIRELESS_TYPE, {
+            iface: this.wlan.ifaceName,
+            wirelessType: newState
           })
         }
       }

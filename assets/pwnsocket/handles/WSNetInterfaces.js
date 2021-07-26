@@ -1,26 +1,31 @@
 import si from "systeminformation";
 import consola from "consola";
-import { WLAN_GET_INTERFACES, WLAN_RECEIVE_INTERFACES, WLAN_SET_OPERSTATE } from "../messages.js";
-import { setInterfaceOperation } from "../../net/network.js";
+import {
+  WLAN_GET_INTERFACES,
+  WLAN_RECEIVE_INTERFACES,
+  WLAN_SET_OPERSTATE,
+  WLAN_SET_WIRELESS_TYPE
+} from "../messages.js";
+import { getWirelessType, setInterfaceOperation } from "../../net/network.js";
 
 let cachedInterfaces = []
 function sendNetInterfaces(socket, broadcast = false, io=null) {
   si.networkInterfaces((interfaces) => {
     si.wifiInterfaces((wifiInterfaces) => {
       consola.debug("Sending network interfaces  ")
-      consola.info("Wireless interfaces: " + JSON.stringify(wifiInterfaces))
       const wlan1 = wifiInterfaces.find(w => w.iface === 'wlan1')
       if(wlan1 !== undefined) {
-        consola.info("Found wlan1: " + JSON.stringify(wlan1))
+        const wType = getWirelessType(wlan1.iface);
         interfaces.push({
           iface: wlan1.iface,
           ifaceName: 'wlan1',
-          ip4: '0.0.0.0',
           mac: wlan1.mac,
+          operstate: 'external',
           internal: false,
           virtual: false,
-          operstate: 'up',
-          type: 'wireless'
+          type: 'wireless',
+          monitorAbility: true,
+          wirelessType: wType
         })
       }
       cachedInterfaces = interfaces
@@ -36,6 +41,24 @@ function sendNetInterfaces(socket, broadcast = false, io=null) {
 export function wsHandleNetworkInterfaces(socket, io) {
   socket.on(WLAN_GET_INTERFACES, function(fn) {
     sendNetInterfaces(socket);
+  })
+  socket.on(WLAN_SET_WIRELESS_TYPE, (ops) => {
+    if(typeof ops.iface !== "string" || typeof ops.wirelessType !== "boolean") {
+      consola.info("Invalid option types")
+      return;
+    }
+    const iface = ops.iface;
+    if(iface == null || !cachedInterfaces.map((i) => i.ifaceName).includes(iface)) {
+      consola.info('Sent invalid interface for changing wlan opstatus')
+      return;
+    }
+    if(ops.wirelessType) {
+      // SET TO MONITOR MODE
+      consola.info('Setting to monitor mode')
+    } else {
+      // SET TO MANAGED MODE
+      consola.info('Setting to managed mode')
+    }
   })
   socket.on(WLAN_SET_OPERSTATE, (ops) => {
     if(typeof ops.iface !== "string" || typeof ops.opStatus !== "boolean") {
