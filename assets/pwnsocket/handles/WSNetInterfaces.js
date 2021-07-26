@@ -65,6 +65,7 @@ export function wsHandleNetworkInterfaces(socket, io) {
       if(response !== WIRELESS_TYPE_MONITOR) {
         consola.log('Failed to set to monitor mode')
       }
+      sendNetInterfaces(socket, true, io)
     } else {
       // SET TO MANAGED MODE
       consola.info('Setting to managed mode')
@@ -72,8 +73,8 @@ export function wsHandleNetworkInterfaces(socket, io) {
       if(response !== WIRELESS_TYPE_MANAGED) {
         consola.log('Failed to set to managed mode')
       }
+      sendNetInterfaces(socket, true, io)
     }
-    sendNetInterfaces(socket, true, io)
   })
   socket.on(WLAN_SET_OPERSTATE, (ops) => {
     if(typeof ops.iface !== "string" || typeof ops.opStatus !== "boolean") {
