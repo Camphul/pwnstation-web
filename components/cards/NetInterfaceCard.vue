@@ -94,7 +94,7 @@ import { WLAN_SET_OPERSTATE, WLAN_SET_WIRELESS_TYPE } from "~/assets/pwnsocket/m
         event.stopImmediatePropagation()
         if (await this.$refs.confirmOpState.open(
           "Confirm",
-          "Changing to monitor mode may affect your connection",
+          "Changing to or from monitor mode may affect your connection",
           {
             color: 'primary'
           }

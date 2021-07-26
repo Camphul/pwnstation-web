@@ -6,7 +6,7 @@ import {
   WLAN_SET_OPERSTATE,
   WLAN_SET_WIRELESS_TYPE
 } from "../messages.js";
-import { getWirelessType, setInterfaceOperation } from "../../net/network.js";
+import { getWirelessType, setInterfaceOperation, setWirelessType } from "../../net/network.js";
 
 let cachedInterfaces = []
 function sendNetInterfaces(socket, broadcast = false, io=null) {
@@ -55,9 +55,18 @@ export function wsHandleNetworkInterfaces(socket, io) {
     if(ops.wirelessType) {
       // SET TO MONITOR MODE
       consola.info('Setting to monitor mode')
+      const response = setWirelessType('monitor')
+      if(response !== 'monitor') {
+        consola.log('Failed to set to monitor mode')
+      }
     } else {
       // SET TO MANAGED MODE
       consola.info('Setting to managed mode')
+      consola.info('Setting to monitor mode')
+      const response = setWirelessType('managed')
+      if(response !== 'managed') {
+        consola.log('Failed to set to managed mode')
+      }
     }
   })
   socket.on(WLAN_SET_OPERSTATE, (ops) => {

@@ -18,6 +18,18 @@ export function setInterfaceOperation(name, state) {
   }
 }
 
+export function setWirelessType(mode) {
+  try {
+    const buffer = execSync('./wifi ' + mode, {
+      cwd: process.env.NODE_ENV === 'production' ? process.env.CWD_DIR_PROD : process.env.CWD_DIR_DEV
+    })
+    return buffer
+  } catch (error) {
+    consola.error(error.message)
+    return WIRELESS_TYPE_OTHER;
+  }
+}
+
 export function getWirelessType(ifaceName) {
   try {
     const buffer = execSync('iw ' + ifaceName + ' info | grep -i type | awk \'{ sub(/^[ \\t]+/, ""); print $2}\'')
