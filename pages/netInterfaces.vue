@@ -1,62 +1,32 @@
 <template>
   <v-row>
-    <v-col v-if="wlanInterfaces.length === 0 && !isLoaded" cols="12" class="pa-3 d-flex flex-column">
+    <v-col v-for="winterface in wlanInterfaces" :key="winterface.ifaceName" cols="12" sm="4" md="4" class="pa-3 d-flex flex-column">
+      <NetInterfaceCard :wlan="winterface" :is-loaded="isLoaded"></NetInterfaceCard>
+    </v-col>
+    <v-col v-if="wlanInterfaces.length === 0" cols="12" sm="4" md="4" class="pa-3 d-flex flex-column text-center">
       <v-overlay
-        absolute
-        :value="wlanInterfaces.length === 0 || (wlanInterfaces.length === 0 && isLoaded)"
+        absolute="absolute"
+        opacity="0.5"
+        :value="wlanInterfaces.length === 0"
       >
         <v-progress-circular
           indeterminate
           size="64"
         ></v-progress-circular>
+        <p class="font-weight-bold">Loading Interfaces</p>
       </v-overlay>
-    </v-col>
-    <v-col v-for="wlan in wlanInterfaces" v-else :key="wlan.ifaceName" cols="12" sm="6" md="6" class="pa-3 d-flex flex-column">
-      <v-card class="elevation-5 flex d-flex flex-column" :disabled="isLoaded" :loading="isLoaded">
-        <v-card-title>
-          <v-icon v-if="wlan.type == 'wireless'">mdi-wifi</v-icon>
-          <v-icon v-else>mdi-ethernet</v-icon>
-          <span class="ml-2"> {{wlan.ifaceName }}</span>
-        </v-card-title>
-        <v-list v-if="!isLoading" class="pa-3 d-flex flex-column" :disabled="wlan.operstate === 'down'">
-          <v-list-item>
-            <v-list-item-title>Interface</v-list-item-title>
-            <v-list-item-subtitle>{{ wlan.iface }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>Operational</v-list-item-title>
-            <v-list-item-subtitle>{{ wlan.operstate }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>Wired/wireless</v-list-item-title>
-            <v-list-item-subtitle>{{ wlan.type }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item v-show="!wlanInterfaces.ip4">
-            <v-list-item-title>IPv4</v-list-item-title>
-            <v-list-item-subtitle>{{ wlan.ip4 }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>MAC</v-list-item-title>
-            <v-list-item-subtitle>{{ wlan.mac }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>Internal interface</v-list-item-title>
-            <v-list-item-subtitle>{{ wlan.internal ? 'yes' : 'no' }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>Virtual interface</v-list-item-title>
-            <v-list-item-subtitle>{{ wlan.virtual ? 'yes' : 'no' }}</v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-      </v-card>
     </v-col>
   </v-row>
 </template>
 <script>
 import consola from "consola";
 import { WLAN_GET_INTERFACES, WLAN_RECEIVE_INTERFACES } from "~/assets/pwnsocket/messages";
+import NetInterfaceCard from "~/components/cards/NetInterfaceCard";
 
 export default {
+  components: {
+    NetInterfaceCard,
+  },
   data() {
     return {
       wlanUpdateInterval: 60000,
@@ -74,13 +44,13 @@ export default {
     this.$pageTitle('Network Interfaces')
     // to prevent invalid states
     // now setup wlan interval
-    this.updateWlanInterfaces();
-
+    this.$nextTick(() => {
+      setTimeout(this.updateWlanInterfaces, 500)
+    })
     this.wlanUpdateInterval = setInterval(this.updateWlanInterfaces, this.wlanUpdateInterval)
   },
   beforeDestroy() {
     clearInterval(this.wlanUpdateInterval);
-    // to prevent invalid states
   },
   methods: {
     updateWlanInterfaces() {
@@ -90,7 +60,7 @@ export default {
             consola.info('WLAN TIMEOUT REACHED')
             this.$store.dispatch('wlan/setLoading', false)
           }
-        }, 10000)
+        }, 30000)
         this.$store.dispatch('wlan/setLoading', true).then(() => {
           this.$socket.on(WLAN_RECEIVE_INTERFACES, (interfaces) => {
             this.$store.dispatch('wlan/setInterfaces', interfaces).then(() => {
