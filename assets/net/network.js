@@ -23,7 +23,7 @@ export function setWirelessType(mode) {
     let buffer = execSync('bash ~/wifi ' + mode, {
       cwd: process.env.NODE_ENV === 'production' ? process.env.CWD_DIR_PROD : process.env.CWD_DIR_DEV
     })
-    buffer = buffer.replace(/(\r\n|\n|\r)/gm, "")
+    buffer = buffer.toString().replace(/(\r\n|\n|\r)/gm, "")
     consola.info("Response buffer: '" + buffer + "'")
     return buffer
   } catch (error) {
