@@ -27,9 +27,6 @@ export default {
   created() {
     this.$store.dispatch('ui/setLoadingOverlay', true)
   },
-  mounted() {
-    this.$store.dispatch('ui/setLoadingOverlay',false);
-  },
   data () {
     return {
       drawer: false,
@@ -54,6 +51,10 @@ export default {
       ],
       title: 'PwnStation'
     }
+  },
+  mounted() {
+    this.$socket.on('connect', () => this.$store.dispatch('ui/setLoadingOverlay', false));
+    this.$socket.on('disconnect', () => this.$store.dispatch('ui/setLoadingOverlay', true));
   }
 }
 </script>

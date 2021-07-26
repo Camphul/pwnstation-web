@@ -1,26 +1,103 @@
 <template>
   <v-row>
-    <v-col cols="12" sm="8" md="6">
-      <p>Displaying wlan interfaces here</p>
-      <p>{{wlanInterfaces}}</p>
+    <v-col v-if="wlanInterfaces.length === 0" cols="12" class="pa-3 d-flex flex-column">
+      <v-overlay
+        absolute
+        :value="wlanInterfaces.length === 0 || (wlanInterfaces.length === 0 && isLoaded)"
+      >
+        <v-progress-circular
+          indeterminate
+          size="64"
+        ></v-progress-circular>
+      </v-overlay>
+    </v-col>
+    <v-col v-for="wlan in wlanInterfaces" v-else :key="wlan.ifaceName" cols="12" sm="6" md="6" class="pa-3 d-flex flex-column">
+      <v-card class="elevation-5 flex d-flex flex-column" :disabled="isLoaded" :loading="isLoaded">
+        <v-card-title>{{wlan.ifaceName}}</v-card-title>
+        <v-list v-if="!isLoading" class="pa-3 d-flex flex-column">
+          <v-list-item>
+            <v-list-item-title>Interface</v-list-item-title>
+            <v-list-item-subtitle>{{wlan.iface}}</v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Operational</v-list-item-title>
+            <v-list-item-subtitle>{{wlan.operstate}}</v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Wired/wireless</v-list-item-title>
+            <v-list-item-subtitle>{{wlan.type}}</v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item v-show="wlan.ip4">
+            <v-list-item-title>IPv4</v-list-item-title>
+            <v-list-item-subtitle>{{wlan.ip4}}</v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>MAC</v-list-item-title>
+            <v-list-item-subtitle>{{wlan.mac}}</v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Internal interface</v-list-item-title>
+            <v-list-item-subtitle>{{wlan.internal ? 'yes' : 'no'}}</v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Virtual interface</v-list-item-title>
+            <v-list-item-subtitle>{{wlan.virtual ? 'yes' : 'no'}}</v-list-item-subtitle>
+          </v-list-item>
+        </v-list>
+      </v-card>
     </v-col>
   </v-row>
 </template>
 <script>
+import consola from "consola";
 import { WLAN_GET_INTERFACES, WLAN_RECEIVE_INTERFACES } from "~/assets/pwnsocket/messages";
 
 export default {
   data() {
     return {
-      wlanInterfaces: []
+      wlanUpdateInterval: 60000,
+    }
+  },
+  computed: {
+    wlanInterfaces() {
+      return this.$store.getters['wlan/interfaces']
+    },
+    isLoaded() {
+      return this.$store.getters['wlan/isLoading']
     }
   },
   mounted() {
     this.$pageTitle('WLAN Interfaces')
-      this.$socket.on(WLAN_RECEIVE_INTERFACES, (interfaces) => {
-        this.wlanInterfaces = interfaces;
-      })
-      this.$socket.emit(WLAN_GET_INTERFACES);
+    // to prevent invalid states
+    // now setup wlan interval
+    this.updateWlanInterfaces();
+
+    this.wlanUpdateInterval = setInterval(this.updateWlanInterfaces, this.wlanUpdateInterval)
+  },
+  beforeDestroy() {
+    clearInterval(this.wlanUpdateInterval);
+    // to prevent invalid states
+  },
+  methods: {
+    updateWlanInterfaces() {
+      if(this.$store.getters['ws/connected']) {
+        const timeoutRef = setTimeout(() => {
+          if(this.$store.getters['wlan/isLoading']) {
+            consola.info('WLAN TIMEOUT REACHED')
+            this.$store.dispatch('wlan/setLoading', false)
+          }
+        }, 10000)
+        this.$store.dispatch('wlan/setLoading', true).then(() => {
+          this.$socket.on(WLAN_RECEIVE_INTERFACES, (interfaces) => {
+            this.$store.dispatch('wlan/setInterfaces', interfaces).then(() => {
+              clearTimeout(timeoutRef)
+              this.$store.dispatch('wlan/setLoading', false)
+            })
+          })
+        });
+        this.$socket.emit(WLAN_GET_INTERFACES);
+      }
+    }
   }
 }
 </script>

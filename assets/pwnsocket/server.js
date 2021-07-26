@@ -27,11 +27,21 @@ export function handleServerWS(io) {
         cwd: process.env.CWD_DIR,
       });
     })
-    socket.on(WLAN_GET_INTERFACES, function(fn) {
-      consola.info("Requesting wlan interfaces")
-      si.wifiInterfaces((interfaces) => {
+    wlanInterfacesHandlers(socket, io)
+  })
+}
+
+function wlanInterfacesHandlers(socket, io) {
+  socket.on(WLAN_GET_INTERFACES, function(fn) {
+    consola.info("Requesting wlan interfaces")
+    si.networkInterfaces((interfaces) => {
+      consola.info("Sending network interfaces  ")
+      if(process.env.CPU_ARCH !== 'arm64') {
         socket.emit(WLAN_RECEIVE_INTERFACES, interfaces)
-      })
+      } else {
+        const filteredInterfaces = interfaces.filter((networkInteface) => networkInteface.ifaceName.startsWith("wlan"))
+        socket.emit(WLAN_RECEIVE_INTERFACES, filteredInterfaces)
+      }
     })
   })
 }
