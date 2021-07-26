@@ -12,7 +12,7 @@ import {
   setWirelessType,
   WIRELESS_TYPE_MANAGED,
   WIRELESS_TYPE_MONITOR
-} from "../../net/network.js";
+} from "../../sys/network.js";
 
 let cachedInterfaces = []
 function sendNetInterfaces(socket, broadcast = false, io=null) {
