@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col v-if="wlanInterfaces.length === 0" cols="12" class="pa-3 d-flex flex-column">
+    <v-col v-if="wlanInterfaces.length === 0 && !isLoaded" cols="12" class="pa-3 d-flex flex-column">
       <v-overlay
         absolute
         :value="wlanInterfaces.length === 0 || (wlanInterfaces.length === 0 && isLoaded)"
