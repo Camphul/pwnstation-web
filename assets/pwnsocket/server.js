@@ -43,12 +43,12 @@ function sendNetInterfaces(socket, broadcast = false, io=null) {
         socket.emit(WLAN_RECEIVE_INTERFACES, interfaces)
       }
     } else {
-      // const filteredInterfaces = interfaces.filter((networkInteface) => networkInteface.ifaceName.startsWith("wlan"))
-      cachedInterfaces = interfaces
+      const filteredInterfaces = interfaces// .filter((networkInteface) => networkInteface.ifaceName.)
+      cachedInterfaces = filteredInterfaces
       if(broadcast) {
-        io.emit(WLAN_RECEIVE_INTERFACES, interfaces)
+        io.emit(WLAN_RECEIVE_INTERFACES, filteredInterfaces)
       } else {
-        socket.emit(WLAN_RECEIVE_INTERFACES, interfaces)
+        socket.emit(WLAN_RECEIVE_INTERFACES, filteredInterfaces)
       }
     }
   })
