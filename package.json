@@ -5,6 +5,7 @@
   "author": "Luca Camphuisen",
   "description": "Raspberry pi web management tool",
   "scripts": {
+    "clean": "rm -rf out .nuxt",
     "dev": "nuxt",
     "build": "NODE_ENV=production CPU_ARCH=arm64 nuxt build",
     "start": "NODE_ENV=production CPU_ARCH=arm64 nuxt start",
@@ -33,6 +34,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "thread-loader": "^3.0.4"
   }
 }

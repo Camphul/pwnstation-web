@@ -1,5 +1,6 @@
 // eslint-disable-next-line nuxt/no-cjs-in-config
 import colors from 'vuetify/es5/util/colors'
+import consola from 'consola'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -93,5 +94,23 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend(config, { isDev, isClient }) {
+      config.module.rules.push({
+        test: /\.js$/,
+        loader: 'thread-loader',
+        options: {
+          workers: 4,
+          workerParallelJobs: 50,
+          workerNodeArgs: ['--max-old-space-size=2048'],
+        }
+      })
+      if (isClient) {
+        config.optimization.splitChunks.maxSize = 512000
+      }
+    },
+    extractCSS: {
+      ignoreOrder: true
+    },
+    minimize: true,
   }
 }
