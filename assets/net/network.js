@@ -2,7 +2,7 @@
 import { execSync } from 'child_process'
 import consola from 'consola'
 export const WIRELESS_TYPE_MANAGED = 'managed'
-export const WIRELESS_TYPE_MONITOR = 'managed'
+export const WIRELESS_TYPE_MONITOR = 'monitor'
 export const WIRELESS_TYPE_OTHER = 'other'
 export function setInterfaceOperation(name, state) {
   try {

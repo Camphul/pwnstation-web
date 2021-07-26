@@ -101,7 +101,7 @@ import { WLAN_SET_OPERSTATE, WLAN_SET_WIRELESS_TYPE } from "~/assets/pwnsocket/m
         )
         ) {
           let newState;
-          if (this.wlan.wirelessType === 'monitor') {
+          if (this.wlan.wirelessType === 'managed') {
             newState = true;
           } else {
             newState = false;
