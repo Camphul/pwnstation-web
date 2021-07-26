@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      wlanUpdateInterval: 60000,
+      wlanUpdateInterval: 30000,
     }
   },
   computed: {
