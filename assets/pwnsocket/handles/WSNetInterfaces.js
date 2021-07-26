@@ -6,23 +6,30 @@ import { setInterfaceOperation } from "../../net/network.js";
 let cachedInterfaces = []
 function sendNetInterfaces(socket, broadcast = false, io=null) {
   si.networkInterfaces((interfaces) => {
-    consola.debug("Sending network interfaces  ")
-    if(process.env.CPU_ARCH !== 'arm64') {
+    si.wifiInterfaces((wifiInterfaces) => {
+      consola.debug("Sending network interfaces  ")
+      consola.info("Wireless interfaces: " + JSON.stringify(wifiInterfaces))
+      const wlan1 = wifiInterfaces.find(w => w.iface === 'wlan1')
+      if(wlan1 !== undefined) {
+        consola.info("Found wlan1: " + JSON.stringify(wlan1))
+        interfaces.push({
+          iface: wlan1.iface,
+          ifaceName: 'wlan1',
+          ip4: '0.0.0.0',
+          mac: wlan1.mac,
+          internal: false,
+          virtual: false,
+          operstate: 'up',
+          type: 'wireless'
+        })
+      }
       cachedInterfaces = interfaces
-      if(broadcast) {
+      if (broadcast) {
         io.emit(WLAN_RECEIVE_INTERFACES, interfaces)
       } else {
         socket.emit(WLAN_RECEIVE_INTERFACES, interfaces)
       }
-    } else {
-      const filteredInterfaces = interfaces// .filter((networkInteface) => networkInteface.ifaceName.)
-      cachedInterfaces = filteredInterfaces
-      if(broadcast) {
-        io.emit(WLAN_RECEIVE_INTERFACES, filteredInterfaces)
-      } else {
-        socket.emit(WLAN_RECEIVE_INTERFACES, filteredInterfaces)
-      }
-    }
+    })
   })
 }
 
