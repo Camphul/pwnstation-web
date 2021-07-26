@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col v-for="winterface in wlanInterfaces" :key="winterface.ifaceName" cols="12" sm="4" md="4" class="pa-3 d-flex flex-column">
+    <v-col v-for="winterface in wlanInterfaces" :key="winterface.ifaceName" cols="12" sm="6" md="6" class="pa-3 d-flex flex-column">
       <NetInterfaceCard :wlan="winterface" :is-loaded="isLoaded"></NetInterfaceCard>
     </v-col>
     <v-col v-if="wlanInterfaces.length === 0" cols="12" sm="4" md="4" class="pa-3 d-flex flex-column text-center">
