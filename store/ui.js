@@ -9,7 +9,7 @@ export const state = () => ({
       to: '/'
     },
     {
-      icon: 'mdi-wifi',
+      icon: 'mdi-lan',
       title: 'Net Interfaces',
       to: '/netInterfaces'
     },
