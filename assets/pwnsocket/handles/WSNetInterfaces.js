@@ -73,6 +73,7 @@ export function wsHandleNetworkInterfaces(socket, io) {
         consola.log('Failed to set to managed mode')
       }
     }
+    sendNetInterfaces(socket, true, io)
   })
   socket.on(WLAN_SET_OPERSTATE, (ops) => {
     if(typeof ops.iface !== "string" || typeof ops.opStatus !== "boolean") {
