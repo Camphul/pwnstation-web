@@ -1,12 +1,12 @@
 // eslint-disable-next-line camelcase
-import child_process from 'child_process'
+import { execSync } from 'child_process'
 import consola from 'consola'
 export const WIRELESS_TYPE_MANAGED = 'managed'
 export const WIRELESS_TYPE_MONITOR = 'managed'
 export const WIRELESS_TYPE_OTHER = 'other'
 export function setInterfaceOperation(name, state) {
   try {
-    child_process.execSync('sudo ip link set ' + name + ' ' + state);
+    execSync('sudo ip link set ' + name + ' ' + state);
     return true
   } catch (error) {
     consola.error(error.message)
@@ -20,8 +20,9 @@ export function setInterfaceOperation(name, state) {
 
 export function getWirelessType(ifaceName) {
   try {
-    const buffer = child_process.execSync('iw ' + ifaceName + ' info | grep -i type | awk \'{ sub(/^[ \\t]+/, ""); print $2}\'')
+    const buffer = execSync('iw ' + ifaceName + ' info | grep -i type | awk \'{ sub(/^[ \\t]+/, ""); print $2}\'')
     consola.info("Wireless type for " + ifaceName + " is " + buffer)
+    return buffer
   } catch (error) {
     consola.error(error.message)
     return WIRELESS_TYPE_OTHER;

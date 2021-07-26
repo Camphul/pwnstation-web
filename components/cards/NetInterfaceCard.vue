@@ -57,7 +57,6 @@
 <script>
 import { WLAN_SET_OPERSTATE, WLAN_SET_WIRELESS_TYPE } from "~/assets/pwnsocket/messages";
   import ConfirmationDialog from "~/components/dialogs/ConfirmationDialog";
-import { WIRELESS_TYPE_MANAGED} from "~/assets/net/network";
 
   export default {
     props: ['wlan', 'isLoaded'],
@@ -102,7 +101,7 @@ import { WIRELESS_TYPE_MANAGED} from "~/assets/net/network";
         )
         ) {
           let newState;
-          if (this.wlan.wirelessType === WIRELESS_TYPE_MANAGED) {
+          if (this.wlan.wirelessType === 'managed') {
             newState = true;
           } else {
             newState = false;
