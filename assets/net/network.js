@@ -32,9 +32,7 @@ export function setWirelessType(mode) {
 
 export function getWirelessType(ifaceName) {
   try {
-    const buffer = execSync('iw ' + ifaceName + ' info | grep -i type | awk \'{ sub(/^[ \\t]+/, ""); print $2}\'')
-    consola.info("Wireless type for " + ifaceName + " is " + buffer)
-    return buffer
+    return execSync('iw ' + ifaceName + ' info | grep -i type | awk \'{ sub(/^[ \\t]+/, ""); print $2}\'')
   } catch (error) {
     consola.error(error.message)
     return WIRELESS_TYPE_OTHER;
