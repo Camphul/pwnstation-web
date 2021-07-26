@@ -34,7 +34,11 @@ export function setWirelessType(mode) {
 
 export function getWirelessType(ifaceName) {
   try {
-    return execSync('iw ' + ifaceName + ' info | grep -i type | awk \'{ sub(/^[ \\t]+/, ""); print $2}\'')
+    // iw wlp3s0 info | grep -i type | awk '{ sub(/^[ \\t]+/, ""); print $2}'
+    let buffer = execSync('iw ' + ifaceName + ' info | grep -i type | awk \'{ sub(/^[ \\t]+/, ""); print $2}\'')
+    buffer = buffer.toString().replace(/(\r\n|\n|\r)/gm, "")
+    consola.info("Response buffer: '" + buffer + "'")
+    return buffer
   } catch (error) {
     consola.error(error.message)
     return WIRELESS_TYPE_OTHER;
