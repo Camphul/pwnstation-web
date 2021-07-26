@@ -11,37 +11,37 @@
         ></v-progress-circular>
       </v-overlay>
     </v-col>
-    <v-col v-for="wlan in wlanInterfaces" v-else :key="wlan.ifaceName" cols="12" sm="6" md="6" class="pa-3 d-flex flex-column">
+    <v-col v-for="wlan in wlanInterfaces" v-else :key="netInterfaces.ifaceName" cols="12" sm="6" md="6" class="pa-3 d-flex flex-column">
       <v-card class="elevation-5 flex d-flex flex-column" :disabled="isLoaded" :loading="isLoaded">
-        <v-card-title>{{wlan.ifaceName}}</v-card-title>
+        <v-card-title>{{ netInterfaces.ifaceName }}</v-card-title>
         <v-list v-if="!isLoading" class="pa-3 d-flex flex-column">
           <v-list-item>
             <v-list-item-title>Interface</v-list-item-title>
-            <v-list-item-subtitle>{{wlan.iface}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ netInterfaces.iface }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
             <v-list-item-title>Operational</v-list-item-title>
-            <v-list-item-subtitle>{{wlan.operstate}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ netInterfaces.operstate }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
             <v-list-item-title>Wired/wireless</v-list-item-title>
-            <v-list-item-subtitle>{{wlan.type}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ netInterfaces.type }}</v-list-item-subtitle>
           </v-list-item>
-          <v-list-item v-show="wlan.ip4">
+          <v-list-item v-show="netInterfaces.ip4">
             <v-list-item-title>IPv4</v-list-item-title>
-            <v-list-item-subtitle>{{wlan.ip4}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ netInterfaces.ip4 }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
             <v-list-item-title>MAC</v-list-item-title>
-            <v-list-item-subtitle>{{wlan.mac}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ netInterfaces.mac }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
             <v-list-item-title>Internal interface</v-list-item-title>
-            <v-list-item-subtitle>{{wlan.internal ? 'yes' : 'no'}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ netInterfaces.internal ? 'yes' : 'no' }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
             <v-list-item-title>Virtual interface</v-list-item-title>
-            <v-list-item-subtitle>{{wlan.virtual ? 'yes' : 'no'}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ netInterfaces.virtual ? 'yes' : 'no' }}</v-list-item-subtitle>
           </v-list-item>
         </v-list>
       </v-card>
@@ -67,7 +67,7 @@ export default {
     }
   },
   mounted() {
-    this.$pageTitle('WLAN Interfaces')
+    this.$pageTitle('Network Interfaces')
     // to prevent invalid states
     // now setup wlan interval
     this.updateWlanInterfaces();

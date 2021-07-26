@@ -10,8 +10,8 @@ export const state = () => ({
     },
     {
       icon: 'mdi-wifi',
-      title: 'WLAN Interfaces',
-      to: '/wlan'
+      title: 'Net Interfaces',
+      to: '/netInterfaces'
     },
     {
       icon: 'mdi-wifi-cog',
