@@ -20,12 +20,13 @@ export function setInterfaceOperation(name, state) {
 
 export function setWirelessType(mode) {
   try {
-    const buffer = execSync('./wifi ' + mode, {
+    const buffer = execSync('bash ~/wifi ' + mode, {
       cwd: process.env.NODE_ENV === 'production' ? process.env.CWD_DIR_PROD : process.env.CWD_DIR_DEV
     })
+    consola.info("Response buffer: '" + buffer + "'")
     return buffer
   } catch (error) {
-    consola.error(error.message)
+    consola.error("Failed to exec wifi: " + error.message)
     return WIRELESS_TYPE_OTHER;
   }
 }
