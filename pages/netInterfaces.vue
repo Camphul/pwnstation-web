@@ -31,7 +31,7 @@
             <v-list-item-title>Wired/wireless</v-list-item-title>
             <v-list-item-subtitle>{{ wlan.type }}</v-list-item-subtitle>
           </v-list-item>
-          <v-list-item v-show="wlanInterfaces.ip4">
+          <v-list-item v-show="!wlanInterfaces.ip4">
             <v-list-item-title>IPv4</v-list-item-title>
             <v-list-item-subtitle>{{ wlan.ip4 }}</v-list-item-subtitle>
           </v-list-item>
