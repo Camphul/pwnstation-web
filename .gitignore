@@ -90,3 +90,4 @@ sw.*
 *.swp
 
 .env
+/assets/fonts/README.txt
