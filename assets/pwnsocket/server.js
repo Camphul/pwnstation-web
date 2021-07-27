@@ -4,8 +4,9 @@ import {
   HOST_REBOOT,
   HOST_SHUTDOWN,
 } from "./messages";
-import { wsHandleNetworkInterfaces } from './handles/WSNetInterfaces';
-import { wsHandleHostStats } from "./handles/WSHostStats";
+import { wsHandleNetworkInterfaces } from './handles/WSNetInterfaces'
+import { wsHandleHostStats } from './handles/WSHostStats'
+import { wsHandleTerminalEmulator } from './handles/WSTerminalEmulator'
 
 
 function wsHandleShutdownAndReboot(socket, io) {
@@ -30,6 +31,7 @@ export function handleServerWS(io) {
     wsHandleShutdownAndReboot(socket, io)
     wsHandleNetworkInterfaces(socket, io)
     wsHandleHostStats(io)
+    wsHandleTerminalEmulator(socket, io)
   })
 }
 

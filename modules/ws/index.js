@@ -2,6 +2,7 @@ import http from 'http'
 import socketIO from 'socket.io'
 import consola from 'consola'
 import { handleServerWS } from "../../assets/pwnsocket/server";
+
 export default function () {
   this.nuxt.hook('render:before', (renderer) => {
     const server = http.createServer(this.nuxt.renderer.app)
