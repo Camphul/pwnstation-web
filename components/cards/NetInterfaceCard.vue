@@ -27,7 +27,7 @@
       <v-list-item v-if="wlan.monitorAbility === true">
         <v-list-item-title>Monitor Mode</v-list-item-title>
         <v-list-item-subtitle>
-          <v-switch class="v-input--switch" :value="wlan.wirelessType == 'monitor'" readonly @touchstart.native.stop @click.native.stop @mousedown="handleMonitorModeChange" ></v-switch>
+          <v-switch class="v-input--switch" :input-value="wlan.wirelessType == 'monitor'" readonly @touchstart.native.stop @click.native.stop @mousedown="handleMonitorModeChange" ></v-switch>
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
