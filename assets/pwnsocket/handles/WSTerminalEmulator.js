@@ -15,7 +15,7 @@ function cleanOutput(ps, line) {
 
 export function wsHandleTerminalEmulator(socket, io) {
   const sockId = socket.id
-  const controller = new AbortController();
+  const controller = new window.AbortController();
   const { signal } = controller;
   const ps = spawn(process.env.SHELL,{
     cwd: process.env.HOME,
