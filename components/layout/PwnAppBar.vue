@@ -2,7 +2,7 @@
   <v-app-bar
     clipped-left
     app
-    absolute
+    elevation="5"
   >
     <v-app-bar-nav-icon @click.stop="toggleDrawer()" />
     <v-toolbar-title v-text="title" />

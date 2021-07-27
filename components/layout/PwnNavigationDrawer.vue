@@ -3,6 +3,7 @@
     :value="drawer"
     clipped
     fixed
+    height="100%"
     app
     :style="{
       top: $vuetify.application.top + 'px',
