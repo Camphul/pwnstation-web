@@ -11,6 +11,7 @@ const theme = {
   error: colors.deepOrange.accent,
   success: colors.green.accent3
 }
+
 function rawNotify(socket, io, ops, broadcast) {
   if(broadcast) {
     if(io === undefined) {

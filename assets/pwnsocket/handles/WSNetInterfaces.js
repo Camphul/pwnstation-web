@@ -35,19 +35,17 @@ function sendNetInterfaces(socket, broadcast = false, io=undefined) {
           wirelessType: wType
         })
       }
-      if(cachedInterfaces.length !== 0 && cachedInterfaces.length > interfaces.length) {
-        notify(socket, io, true).info('New network interface detected')
-      }
-      if(cachedInterfaces.length !== 0 && cachedInterfaces.length < interfaces.length) {
-        notify(socket, io, true).info('Removal of network interface detected')
-      }
       cachedInterfaces = interfaces
       if (broadcast) {
         io.emit(WLAN_RECEIVE_INTERFACES, interfaces)
       } else {
         socket.emit(WLAN_RECEIVE_INTERFACES, interfaces)
       }
-    })
+    }).catch((e) => {
+      consola.error(e)
+      })
+  }).catch((error) => {
+    consola.error(error)
   })
 }
 
