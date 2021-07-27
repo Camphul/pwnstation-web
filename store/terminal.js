@@ -7,9 +7,10 @@ export const state = () => ({
 
 export const mutations = {
   termout(state, data) {
-    const line = data.line
-    state.pwd = data.pwd
-    consola.info('Adding term line: %s and current directory is %s', line, data.pwd)
+    const cloned = JSON.parse(JSON.stringify(data))
+    const line = cloned.line
+    state.pwd = cloned.pwd
+    consola.info('Adding term line: %s and current directory is %s', line, cloned.pwd)
     state.messages.push(line)
     if(state.messages.length >= MAX_HISTORY) {
       state.messages.splice(0, 1)
