@@ -52,19 +52,13 @@ export function wsHandleNetworkInterfaces(socket, io) {
   socket.on(WLAN_SET_WIRELESS_TYPE, (ops) => {
     if(typeof ops.iface !== "string" || typeof ops.wirelessType !== "boolean") {
       consola.info("Invalid option types")
-      notify(socket, io, {
-        message: 'Invalid types passed',
-        color: 'red'
-      })
+      notify(socket).error('Invalid interface passed')
       return;
     }
     const iface = ops.iface;
     if(iface == null || !cachedInterfaces.map((i) => i.ifaceName).includes(iface)) {
       consola.info('Sent invalid interface')
-      notify(socket, io, {
-        message: 'Invalid interface passed',
-        color: 'red'
-      })
+      notify(socket).error('Invalid interface passed')
       return;
     }
     if(ops.wirelessType) {
@@ -73,15 +67,9 @@ export function wsHandleNetworkInterfaces(socket, io) {
       const response = setWirelessType(WIRELESS_TYPE_MONITOR)
       if(response !== WIRELESS_TYPE_MONITOR) {
         consola.log('Failed to set to monitor mode')
-        notify(socket, io, {
-          message: 'Interface ' + iface +' set to monitor mode',
-          color: 'success'
-        }, true)
+        notify(socket).error('Failed to set interface to monitor mode')
       } else {
-        notify(socket, io, {
-          message: 'Failed to set interface ' + iface +' to monitor mode: ' + response,
-          color: 'error'
-        })
+        notify(socket, io, true).success('Interface ' + iface +' was set to monitor mode')
       }
       sendNetInterfaces(socket, true, io)
     } else {
@@ -90,14 +78,9 @@ export function wsHandleNetworkInterfaces(socket, io) {
       const response = setWirelessType(WIRELESS_TYPE_MANAGED)
       if(response !== WIRELESS_TYPE_MANAGED) {
         consola.log('Failed to set to managed mode')
-        notify(socket, io, {
-          message: 'Interface ' + iface +' set to monitor'
-        }, true)
+        notify(socket).error('Failed to set interface to managed mode')
       } else {
-        notify(socket, io, {
-          message: 'Failed to set interface ' + iface +' to managed mode: ' + response,
-          color: 'error'
-        })
+        notify(socket, io, true).success('Interface ' + iface +' was set to managed mode')
       }
       sendNetInterfaces(socket, true, io)
     }
@@ -105,26 +88,23 @@ export function wsHandleNetworkInterfaces(socket, io) {
   socket.on(WLAN_SET_OPERSTATE, (ops) => {
     if(typeof ops.iface !== "string" || typeof ops.opStatus !== "boolean") {
       consola.info("Invalid option types")
-      notify(socket, io, {
-        message: 'Invalid types passed',
-        color: 'red'
-      })
+      notify(socket).error('Invalid types passed')
       return;
     }
     const iface = ops.iface;
     if(iface == null || !cachedInterfaces.map((i) => i.ifaceName).includes(iface)) {
       consola.info('Sent invalid interface for changing wlan opstatus')
-      notify(socket, io, {
-        message: 'Interface ' + iface +' set to monitor'
-      }, true)
+      notify(socket).error('Invalid interface selected')
       return;
     }
     const opStatus = ops.opStatus
     const operstatus = opStatus ? 'up' : 'down'
     if(setInterfaceOperation(iface, operstatus)) {
       consola.info("Success setting "  + iface + " network operation status to " + operstatus)
+      notify(socket).success('Updated operational status of ' + iface)
       sendNetInterfaces(socket, true, io)
     } else {
+      notify(socket).error('Failed to update operational status of ' + iface)
       sendNetInterfaces(socket, true, io)
       consola.info("Failed setting "  + iface + " network operation status to " + operstatus)
     }

@@ -1,5 +1,6 @@
 // eslint-disable-next-line nuxt/no-cjs-in-config
 import colors from 'vuetify/es5/util/colors'
+// eslint-disable-next-line no-unused-vars
 import consola from 'consola'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
