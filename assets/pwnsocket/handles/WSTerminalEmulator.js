@@ -4,7 +4,6 @@ import consola from 'consola'
 import { TERM_ERROR, TERM_SEND_COMMAND, TERM_STDERR, TERM_STDOUT } from "../messages.js";
 import { asyncExecOneLineResponse } from "../../sys/system.js";
 const processMap = {}
-const processControllerMap = {}
 function cleanOutput(ps, line) {
   line = line.toString().replace(/(\r\n|\n|\r)/gm, "")
   return {
@@ -44,7 +43,6 @@ export function wsHandleTerminalEmulator(socket, io) {
   consola.info('Spawned new client process')
   socket.on('disconnect', (reason) => {
     ps.kill(9);
-    delete processControllerMap[sockId]
     delete processMap[sockId]
     consola.info('Cleaning up terminal due to socket disconnect: %s', reason)
     consola.info('processMap length: ' + processMap.length)
