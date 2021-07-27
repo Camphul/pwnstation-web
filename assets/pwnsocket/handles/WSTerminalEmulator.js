@@ -45,7 +45,7 @@ export function wsHandleTerminalEmulator(socket, io) {
     ps.kill(9);
     delete processMap[sockId]
     consola.info('Cleaning up terminal due to socket disconnect: %s', reason)
-    consola.info('processMap length: ' + processMap.length)
+    consola.info('processMap size: ' + Object.keys(processMap).length)
 
   })
   socket.on(TERM_SEND_COMMAND, (cmd) => {
