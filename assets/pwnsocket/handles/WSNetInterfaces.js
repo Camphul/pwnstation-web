@@ -35,6 +35,12 @@ function sendNetInterfaces(socket, broadcast = false, io=null) {
           wirelessType: wType
         })
       }
+      if(cachedInterfaces.length !== 0 && cachedInterfaces.length > interfaces.length) {
+        notify(socket, io, true).info('New network interface detected')
+      }
+      if(cachedInterfaces.length !== 0 && cachedInterfaces.length < interfaces.length) {
+        notify(socket, io, true).info('Removal of network interface detected')
+      }
       cachedInterfaces = interfaces
       if (broadcast) {
         io.emit(WLAN_RECEIVE_INTERFACES, interfaces)
@@ -65,24 +71,24 @@ export function wsHandleNetworkInterfaces(socket, io) {
       // SET TO MONITOR MODE
       consola.info('Setting to monitor mode')
       const response = setWirelessType(WIRELESS_TYPE_MONITOR)
+      sendNetInterfaces(socket, true, io)
       if(response !== WIRELESS_TYPE_MONITOR) {
         consola.log('Failed to set to monitor mode')
         notify(socket).error('Failed to set interface to monitor mode')
       } else {
         notify(socket, io, true).success('Interface ' + iface +' was set to monitor mode')
       }
-      sendNetInterfaces(socket, true, io)
     } else {
       // SET TO MANAGED MODE
       consola.info('Setting to managed mode')
       const response = setWirelessType(WIRELESS_TYPE_MANAGED)
+      sendNetInterfaces(socket, true, io)
       if(response !== WIRELESS_TYPE_MANAGED) {
         consola.log('Failed to set to managed mode')
         notify(socket).error('Failed to set interface to managed mode')
       } else {
         notify(socket, io, true).success('Interface ' + iface +' was set to managed mode')
       }
-      sendNetInterfaces(socket, true, io)
     }
   })
   socket.on(WLAN_SET_OPERSTATE, (ops) => {
