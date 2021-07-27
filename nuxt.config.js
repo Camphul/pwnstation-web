@@ -34,7 +34,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {src: '~/plugins/socket-client-plugin.js', mode: 'client'},
-    {src: '~/plugins/page-title-plugin.js', mode: 'client'}
+    {src: '~/plugins/page-title-plugin.js', mode: 'client'},
+    {src: '~/plugins/notification-plugin.js', mode: 'client'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -95,17 +96,19 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend(config, { isDev, isClient }) {
-      config.module.rules.push({
-        test: /\.js$/,
-        loader: 'thread-loader',
-        options: {
-          workers: 4,
-          workerParallelJobs: 50,
-          workerNodeArgs: ['--max-old-space-size=2048'],
+      if (!isDev) {
+        config.module.rules.push({
+          test: /\.js$/,
+          loader: 'thread-loader',
+          options: {
+            workers: 4,
+            workerParallelJobs: 50,
+            workerNodeArgs: ['--max-old-space-size=2048'],
+          }
+        })
+        if (isClient) {
+          config.optimization.splitChunks.maxSize = 512000
         }
-      })
-      if (isClient) {
-        config.optimization.splitChunks.maxSize = 512000
       }
     },
     extractCSS: {

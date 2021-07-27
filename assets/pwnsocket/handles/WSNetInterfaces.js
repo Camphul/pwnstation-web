@@ -13,6 +13,7 @@ import {
   WIRELESS_TYPE_MANAGED,
   WIRELESS_TYPE_MONITOR
 } from "../../sys/network.js";
+import notify from "../../sys/notify.js";
 
 let cachedInterfaces = []
 function sendNetInterfaces(socket, broadcast = false, io=null) {
@@ -65,6 +66,9 @@ export function wsHandleNetworkInterfaces(socket, io) {
       if(response !== WIRELESS_TYPE_MONITOR) {
         consola.log('Failed to set to monitor mode')
       }
+      notify(socket, io, {
+        message: 'Interface ' + iface +' set to monitor'
+      }, true)
       sendNetInterfaces(socket, true, io)
     } else {
       // SET TO MANAGED MODE
@@ -73,6 +77,9 @@ export function wsHandleNetworkInterfaces(socket, io) {
       if(response !== WIRELESS_TYPE_MANAGED) {
         consola.log('Failed to set to managed mode')
       }
+      notify(socket, io, {
+        message: 'Interface ' + iface +' set to managed'
+      }, true)
       sendNetInterfaces(socket, true, io)
     }
   })

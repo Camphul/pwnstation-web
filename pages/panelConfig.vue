@@ -9,7 +9,7 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-btn>Update PwnPanel to latest version</v-btn>
+            <v-btn color="primary" @click="handlePanelUpdate">Update PwnPanel to latest version</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -17,12 +17,13 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-    }
-  },
   mounted() {
-    this.$pageTitle('PwnStation Web Setup')
+    this.$pageTitle("PwnStation Configuration");
+  },
+  methods: {
+    handlePanelUpdate() {
+      this.$notify({message: 'Updating panel'})
+    }
   }
-}
+};
 </script>

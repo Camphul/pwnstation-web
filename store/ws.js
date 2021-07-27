@@ -10,7 +10,7 @@ export const mutations = {
 
 export const actions = {
   setConnected({ commit} , connected) {
-    commit('setConnected', connected)
+    return commit('setConnected', connected)
   }
 }
 export const getters = {

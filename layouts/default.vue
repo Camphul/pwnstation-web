@@ -7,6 +7,7 @@
         <Nuxt />
       </v-container>
     </v-main>
+    <Notifications></Notifications>
     <PwnFooter></PwnFooter>
     <LoadingOverlay></LoadingOverlay>
   </v-app>
@@ -14,6 +15,7 @@
 
 <script>
 import PwnFooter from "~/components/layout/PwnFooter"
+import Notifications from "~/components/Notifications";
 import PwnAppBar from '~/components/layout/PwnAppBar'
 import PwnNavigationDrawer from '~/components/layout/PwnNavigationDrawer'
 import LoadingOverlay from "~/components/overlays/LoadingOverlay";
@@ -22,7 +24,8 @@ export default {
     PwnFooter,
     PwnAppBar,
     PwnNavigationDrawer,
-    LoadingOverlay
+    LoadingOverlay,
+    Notifications,
   },
   created() {
     this.$store.dispatch('ui/setLoadingOverlay', true)
