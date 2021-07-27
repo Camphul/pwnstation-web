@@ -11,7 +11,7 @@ const theme = {
   error: colors.deepOrange.accent,
   success: colors.green.accent3
 }
-function rawNotify(socket, io = undefined, ops, broadcast=false) {
+function rawNotify(socket, io, ops, broadcast) {
   if(broadcast) {
     if(io === undefined) {
       consola.error("Wanted to broadcast but io was not passed as argument")
@@ -23,27 +23,27 @@ function rawNotify(socket, io = undefined, ops, broadcast=false) {
   }
 }
 
-export default function(socket, io = undefined, broadcast=false) {
+export default function(socket, io, broadcast=false) {
   return {
-    error(msg) {
+    error: (msg)=> {
       rawNotify(socket, io, {
         message: msg,
         color: theme.error
       }, broadcast)
     },
-    info(msg) {
+    info: (msg) => {
       rawNotify(socket, io, {
         message: msg,
         color: theme.info
       }, broadcast)
     },
-    success(msg) {
+    success: (msg) => {
       rawNotify(socket, io, {
         message: msg,
         color: theme.success
       }, broadcast)
     },
-    other(opts) {
+    other: (opts) => {
       rawNotify(socket, io, opts, broadcast)
     }
   }

@@ -13,10 +13,10 @@ import {
   WIRELESS_TYPE_MANAGED,
   WIRELESS_TYPE_MONITOR
 } from "../../sys/network.js";
-import notify from "../../sys/notify.js";
+import notify from '../../sys/notify.js'
 
 let cachedInterfaces = []
-function sendNetInterfaces(socket, broadcast = false, io=null) {
+function sendNetInterfaces(socket, broadcast = false, io=undefined) {
   si.networkInterfaces((interfaces) => {
     si.wifiInterfaces((wifiInterfaces) => {
       consola.debug("Sending network interfaces  ")
