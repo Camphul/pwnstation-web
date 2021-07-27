@@ -15,15 +15,11 @@ function cleanOutput(ps, line) {
 
 export function wsHandleTerminalEmulator(socket, io) {
   const sockId = socket.id
-  const controller = new window.AbortController();
-  const { signal } = controller;
   const ps = spawn(process.env.SHELL,{
     cwd: process.env.HOME,
     env: process.env,
-    signal
   })
   processMap[sockId] = ps
-  processControllerMap[sockId] = controller
   const rlStdout = readline.createInterface({
     input: ps.stdout,
   })
@@ -47,7 +43,7 @@ export function wsHandleTerminalEmulator(socket, io) {
   });
   consola.info('Spawned new client process')
   socket.on('disconnect', (reason) => {
-    processControllerMap[sockId].abort();
+    ps.kill(9);
     delete processControllerMap[sockId]
     delete processMap[sockId]
     consola.info('Cleaning up terminal due to socket disconnect: %s', reason)
